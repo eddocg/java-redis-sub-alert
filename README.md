@@ -1,7 +1,7 @@
 # Notification Service using Java and Redis pub/sub feature with velocity
 This service sends email notifications when miners are down. It will read messages from redis queue and then trigger an email using a veolicty template. This service is expected to be executed in background using a crontab service or any other scheduler. Redis and producer service need to be implemented separately.
 
-### [Redis instance][https://redis.io/topics/quickstart]
+### [Redis instance](https://redis.io/topics/quickstart)
 You need to have a redis instance running so you can publish and suscribe to the message broker.
 
 ### Consumer
