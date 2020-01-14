@@ -1,0 +1,155 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.eddocg</groupId>
+  <artifactId>java-redis-sub-alert</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>java-redis-sub-alert</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+  <!-- Redis Client -->
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>2.7.2</version>
+    </dependency>
+
+      <!-- Email -->
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>1.6.1</version>
+    </dependency>
+
+      <!-- Json -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.8.3</version>
+    </dependency>
+
+      <!-- Velocity Email Template -->
+    <dependency>
+      <groupId>org.apache.velocity</groupId>
+      <artifactId>velocity</artifactId>
+      <version>1.7</version>
+    </dependency>
+
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.11.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.11.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <version>2.11.0</version>
+      <exclusions>
+      	<exclusion>
+      		<groupId>log4j</groupId>
+      		<artifactId>log4j</artifactId>
+      	</exclusion>
+      	<exclusion>
+      		<groupId>org.slf4j</groupId>
+      		<artifactId>slf4j-log4j12</artifactId>
+      	</exclusion>
+      </exclusions>
+    </dependency>
+
+  </dependencies>
+  <build>
+  	<plugins>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+      		<artifactId>maven-compiler-plugin</artifactId>
+      		<version>3.7.0</version>
+      		<configuration>
+      			<source>1.8</source>
+      			<target>1.8</target>
+      		</configuration>
+  		</plugin>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+      		<artifactId>maven-dependency-plugin</artifactId>
+      		<executions>
+      			<execution>
+      				<id>copy-dependencies</id>
+      				<phase>prepare-package</phase>
+      				<goals>
+      					<goal>copy-dependencies</goal>
+      				</goals>
+      				<configuration>
+      					<outputDirectory>${project.build.directory}/libs</outputDirectory>
+      				</configuration>
+      			</execution>
+      		</executions>
+  		</plugin>
+
+  		<!-- With the following plugin we make the jar runnable -->
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+      		<artifactId>maven-jar-plugin</artifactId>
+      		<version>3.1.0</version>
+      		<configuration>
+      			<archive>
+      				<manifest>
+      					<addClasspath>true</addClasspath>
+      					<classpathPrefix>libs/</classpathPrefix>
+      					<mainClass>com.eddocg.alerts.MessageConsumer</mainClass>
+      				</manifest>
+      			</archive>
+      		</configuration>
+  		</plugin>
+
+  		<!-- Allos the project to be run via 'mvn compile exec:java' -->
+  		<plugin>
+  			<groupId>org.codehaus.mojo</groupId>
+      		<artifactId>exec-maven-plugin</artifactId>
+      		<version>1.6.0</version>
+      		<configuration>
+				<mainClass>com.eddocg.alerts.MessageConsumer</mainClass>
+				<includePluginDependencies>false</includePluginDependencies>
+      		</configuration>
+  		</plugin>
+
+      <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<!-- get all project dependencies -->
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<!-- MainClass in mainfest make a executable jar -->
+					<archive>
+					  <manifest>
+						<mainClass>com.eddocg.alerts.MessageConsumer</mainClass>
+					  </manifest>
+					</archive>
+
+				</configuration>
+				<executions>
+				  <execution>
+					<id>make-assembly</id>
+                                        <!-- bind to the packaging phase -->
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+				  </execution>
+				</executions>
+			</plugin>
+
+  	</plugins>
+  </build>
+</project>

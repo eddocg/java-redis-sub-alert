@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Sytem Alert</title>
+<style>
+h1 { color: #000000; font-family: 'Raleway', sans-serif; font-size: 24px; font-weight: 800; line-height: 30px; margin: 0 0 24px; text-align:justify; }
+h4 { color: #000000; font-family: 'Raleway', sans-serif; font-size: 15px; font-weight: 800; line-height: 30px; margin: 0 0 24px; text-align:justify; }
+</style>
+</head>
+<body>
+<div style="background-color:black">
+<img alt = "SiteLogo" src = "https://img.host.com/logo.png" width="500" height="90">
+</div>
+<br>
+<h1>
+Your worker ($workerName) has gone offline.
+<br/>
+Please check worker's status.
+<br/><br/>
+Thank you for your preference!
+</h1>
+
+<h4>This is an automated e-mail, do not reply.</h4>
+
+</body>
+</html>
